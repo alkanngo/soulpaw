@@ -1,5 +1,6 @@
 import React from "react"
 import "./Header.css"
+import logo from "./../../assets/logo-primary.png"
 import PersonIcon from "@material-ui/icons/Person"
 import IconButton from "@material-ui/core/IconButton"
 import ForumIcon from "@material-ui/icons/Forum"
@@ -14,7 +15,7 @@ function Header() {
 
       <img
         className="header__logo"
-        src="https://1000logos.net/wp-content/uploads/2018/07/tinder-logo.png"
+        src={logo}
         alt="tinder logo"
       />
 
