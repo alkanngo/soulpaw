@@ -1,18 +1,20 @@
-import React, {useState} from "react"
+import React, {useState, useEffect} from "react"
 import TinderCard from "react-tinder-card"
 import "./TinderCards.css"
+import axios from "./../../axios.js"
 
 function TinderCards() {
-  const [dogs, setDogs] = useState([
-    {
-      name: "Betty",
-      url: "https://images.unsplash.com/photo-1517849845537-4d257902454a?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=975&q=80"
-    },
-    {
-      name: "Spike",
-      url: "https://images.unsplash.com/photo-1583337130417-3346a1be7dee?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=700&q=80"
-    },
-  ])
+  const [dogs, setDogs] = useState([])
+
+  useEffect(() => {
+    //Proper pattern for async inside useEffect
+    async function fetchData() {
+      const req = await axios.get("/cards")
+      setDogs(req.data)
+    }
+
+    fetchData()
+  }, [])
 
   const swiped = (direction, nameToDelete) => {
     console.log("removing: " + nameToDelete)
@@ -22,6 +24,8 @@ function TinderCards() {
   const outOfFrame = (name) => {
     console.log(name + " left the screen")
   }
+
+  console.log(dogs)
 
   return (
     <div className="tinderCards">
@@ -35,7 +39,7 @@ function TinderCards() {
             onCardLeftScreen={() => outOfFrame(dog.name)}
           >
             <div 
-              style={{ backgroundImage: `url(${dog.url})`}}
+              style={{ backgroundImage: `url(${dog.imgUrl})`}}
               className="card"
             >
               <h3>{dog.name}</h3>
